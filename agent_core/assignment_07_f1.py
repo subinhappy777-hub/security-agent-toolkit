@@ -3,5 +3,7 @@ for group in groups:
     for count in group:
         print(count)
 
-groupss=[[2,1],[3,0]]
-for gr in groupss
+group=[[2,1],[3,0]]
+for gr in group:
+    for i in gr:
+        print(i)
