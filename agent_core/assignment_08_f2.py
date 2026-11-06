@@ -1,0 +1,1 @@
+log=[{"name":"kim01", "count": 4}, {"name":"kim01", "count": 4}
