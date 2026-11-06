@@ -48,3 +48,38 @@ def로 시작하고 한 칸 띄운 뒤 이름을 씁니다.
 
 print와 return의 차이
 print는 화면에 보여 주기만 하고 그 값을 변수에 담을 수 없습니다. return은 값을 돌려줘서 받은 쪽에서 담아 두고 계산을 이어 갈 수 있습니다. 그래서 결과를 다음 일에 쓸 함수는 return으로 끝냅니다. return을 만나면 함수는 그 자리에서 끝나고, 아래에 코드가 더 있어도 실행되지 않습니다. return이 없는 함수는 None(아무것도 없음)을 돌려주므로, 결과가 None으로 나오면 return을 빠뜨린 것입니다.
+
+
+오늘 새로 쓴 명령
+cat, grep
+
+오늘 쓴 옵션
+-n : 찾은 줄에 줄 번호를 붙인다
+
+-c : 조건에 맞는 줄 수를 숫자로 보여 준다
+
+찾아보고 알게 된 것
+grep 은
+넘겨받은 결과나 파일 내용에서 특정 글자가 든 줄만 남기는 필터입니다. Linux/macOS 명령어이고 이름은 옛날 ed 편집기의 g/re/p(global / regular expression / print)에서 유래했습니다. 사용법은 grep "글자" 파일 또는 명령 | grep "글자"입니다.
+
+PowerShell에는 grep이 없다
+PowerShell에서 grep을 쓰면 "인식되지 않습니다" 오류가 납니다. 대신 findstr이나 Select-String(별칭 sls)을 써야 합니다.
+
+findstr "실패" sample.log — Windows 기본 명령, 사용법이 grep과 거의 같음
+
+Select-String "실패" sample.log — PowerShell 내장, 정규식 등 기능이 더 많음
+
+| (파이프) 는
+앞 명령의 출력 결과를 뒤 명령의 입력으로 넘겨주는 연결 통로입니다. tasklist | findstr Code처럼 쓰면 tasklist 결과를 findstr이 받아서 "Code"가 든 줄만 남깁니다.
+
+cat 은
+파일 내용을 화면에 출력하는 명령입니다. PowerShell에서는 Get-Content의 별칭이라 cat sample.log처럼 그대로 쓸 수 있습니다.
+
+막힌 것
+PowerShell에서 grep을 쓰면 명령어를 인식하지 못함 → findstr 또는 Select-String으로 대체해야 함
+
+cat sample.log로 파일을 열었더니 한글이 濡쒓렇???깃났처럼 깨져 보임 → 파일은 UTF-8인데 Windows PowerShell 5.1이 기본 인코딩(CP949)으로 읽어서 생긴 문제. Get-Content sample.log -Encoding UTF8로 읽으면 정상
+
+매번 -Encoding UTF8을 붙이지 않으려고 프로필($PROFILE)에 $PSDefaultParameterValues['Get-Content:Encoding'] = 'UTF8' 설정을 추가함. 단, 메모장에 notepad $PROFILE 명령어까지 같이 적어서 저장하는 실수를 함 → 이 줄은 메모장 내용이 아니라 PowerShell에서 실행하는 명령어이므로 파일에서는 지워야 함
+
+git add . 실행 시 "LF will be replaced by CRLF" 경고가 뜸 → 오류가 아니라 줄바꿈 문자 자동 변환 안내이며, add는 정상 성공한 것
